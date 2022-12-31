@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
-import { BandModule } from "@/routers";
+import { BandModule, CarsModule } from "@/routers";
 import { ConfigModule } from "@nestjs/config";
-import { GatewayModule } from './gateway/gateway.module';
+import { GatewayModule } from "./gateway/gateway.module";
 
 @Module({
-  imports: [BandModule, ConfigModule.forRoot(), GatewayModule],
+  imports: [BandModule, ConfigModule.forRoot(), GatewayModule, CarsModule],
 })
 export class AppModule {}

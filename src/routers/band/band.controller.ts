@@ -3,12 +3,11 @@ import {
   Controller,
   Get,
   Param,
-  ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Put,
 } from "@nestjs/common";
-import { iBand, iBodyBand } from "./interface/band.interface";
+import { iBodyBand } from "./interface/band.interface";
 import { BandService } from "./band.service";
 import { CreateBandDto } from "./dto";
 import { ApiTags } from "@nestjs/swagger";
@@ -31,7 +30,6 @@ export class BandController {
       "🚀 ~ file: band.controller.ts:31 ~ BandController ~ addBand ~ createBandDto",
       createBandDto
     );
-    // this.service.addNewBond(body);
     return createBandDto;
   }
   @Put(":id")
