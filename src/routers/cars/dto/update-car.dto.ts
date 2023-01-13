@@ -14,10 +14,10 @@ export class UpdateCarDto {
   @IsString()
   @ApiProperty({
     readOnly: true,
-    required: false,
+    required: true,
   })
   @IsOptional()
-  readonly brand?: string;
+  readonly brandId?: any;
   @IsString()
   @ApiProperty({
     readOnly: true,

@@ -1,26 +1,39 @@
-import { Injectable } from "@nestjs/common";
-import { CreateBrandDto } from "./dto/create-brand.dto";
-import { UpdateBrandDto } from "./dto/update-brand.dto";
+// import { PrismaService } from "@/prisma.service";
+// import { Injectable } from "@nestjs/common";
+// import { Brand, Prisma } from "@prisma/client";
 
-@Injectable()
-export class BrandsService {
-  create(createBrandDto: CreateBrandDto) {
-    return "This action adds a new brand";
-  }
+// @Injectable()
+// export class BrandsService {
+//   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return `This action returns all brands`;
-  }
+//   async create(data: Prisma.BrandCreateInput): Promise<Brand> {
+//     return this.prisma.brand.create({ data });
+//   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brand`;
-  }
+//   findAll(params: {
+//     skip?: number;
+//     take?: number;
+//     cursor?: Prisma.BrandWhereUniqueInput;
+//     where?: Prisma.BrandWhereInput;
+//     orderBy?: Prisma.BrandOrderByWithRelationInput;
+//   }): Promise<Brand[]> {
+//     return this.prisma.brand.findMany({ ...params });
+//   }
 
-  update(id: number, updateBrandDto: UpdateBrandDto) {
-    return `This action updates a #${id} brand`;
-  }
+//   async findOne(params: {
+//     where: Prisma.BrandWhereUniqueInput;
+//   }): Promise<Brand> {
+//     return this.prisma.brand.findUnique({ ...params });
+//   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
-  }
-}
+//   async update(params: {
+//     where: Prisma.BrandWhereUniqueInput;
+//     data: Prisma.BrandUpdateInput;
+//   }): Promise<Brand> {
+//     return this.prisma.brand.update({ ...params });
+//   }
+
+//   async remove(where: Prisma.BrandWhereUniqueInput): Promise<Brand> {
+//     return await this.prisma.brand.delete({ where });
+//   }
+// }

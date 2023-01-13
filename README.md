@@ -19,55 +19,64 @@
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Ejecutar en desarrollo
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. Clonar el repositorio
+2. Ejecutar
 
-## Installation
-
-```bash
-$ npm install
+```
+yarn install
 ```
 
-## Running the app
+3. Tener intalado el Nest CLI instalado
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+npx nest --version
 ```
 
-## Test
+4. Levantar la base de datos
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+docker compose up -d
 ```
 
-## Support
+5. Prisma para el manejo de la base de datos
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+npx prisma studio
+```
 
-## Stay in touch
+# Stack Usado
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Mysql 5.7
+- Nest
+- Prisma
+- Socket.io
 
-## License
+```
+  user:
+    person-banplus
+  password:
+    pR6#h#O39
+  url:
+    https://pagomovil.dis-global.com/admin
+```
 
-Nest is [MIT licensed](LICENSE).
+Te dejo también algunos portales de empleo que te servirán en la búsqueda:
+
+<br />
+<br />
+<br />
+<br />
+
+1. AngelList - [https://angel.co/](https://angel.co/)
+2. Getonboard - [https://www.getonbrd.com/](https://www.getonbrd.com/)
+3. Indeed - [https://es.indeed.com/](https://es.indeed.com/)
+4. Remotive - [https://remotive.com/](https://remotive.com/)
+5. Remote OK - [https://remoteok.com/](https://remoteok.com/)
+6. Glassdoor - [https://glassdoor.com/](https://glassdoor.com/)
+7. We Work Remotely - [https://weworkremotely.com/](https://weworkremotely.com/)
+8. ARC - [https://arc.dev/](https://arc.dev/)
+9. Globant (Careers Page) - [https://www.globant.com/es]
+10. Jobgether - [https://jobgether.com/es/]

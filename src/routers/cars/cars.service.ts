@@ -1,50 +1,70 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateCarDto } from "./dto/create-car.dto";
-import { UpdateCarDto } from "./dto/update-car.dto";
-import { v1 as uuid } from "uuid";
-import { Car } from "./interface/car.interface";
+// import { Injectable } from "@nestjs/common";
+// import { UpdateCarDto } from "./dto/update-car.dto";
+// import { Car, Prisma } from "@prisma/client";
+// import { PrismaService } from "@/prisma.service";
 
-@Injectable()
-export class CarsService {
-  Cars: any[] = [
-    { id: uuid(), model: "Corolla", brand: "Toyota" },
-    { id: uuid(), model: "Honda", brand: "Civic" },
-    { id: uuid(), model: "Cherokee", brand: "Jeep" },
-  ];
+// @Injectable()
+// export class CarsService {
+//   constructor(private readonly prisma: PrismaService) {}
+//   create(createCarDto: Prisma.CarCreateInput): Promise<any> {
+//     return this.prisma.car.create({
+//       data: { ...createCarDto },
+//     });
+//   }
 
-  create(createCarDto: CreateCarDto) {
-    let newCar = { ...createCarDto, id: uuid() };
-    this.Cars = [...this.Cars, newCar];
-    return newCar;
-  }
+//   async findAll(params: {
+//     skip?: number;
+//     take?: number;
+//     cursor?: Prisma.CarWhereUniqueInput;
+//     where?: Prisma.CarWhereInput;
+//     orderBy?: Prisma.CarOrderByWithRelationInput;
+//     select?: Prisma.CarSelect;
+//   }) {
+//     const cars = await this.prisma.$transaction([
+//       this.prisma.car.count(),
+//       this.prisma.car.findMany({
+//         ...params,
+//         orderBy: {
+//           model: "asc",
+//         },
+//         select: {
+//           model: true,
+//           brand: {
+//             select: {
+//               id: true,
+//               createdAt: true,
+//               name: true,
+//             },
+//           },
+//           color: {
+//             select: {
+//               id: true,
+//             },
+//           },
+//         },
+//       }),
+//     ]);
+//     let total = cars[0] ?? 0;
+//     let total_page = params.take ?? 0;
+//     return {
+//       total: cars[0] ?? 0,
+//       total_page: Math.ceil(total / total_page),
+//       data: cars[1],
+//     };
+//   }
 
-  findAll() {
-    return this.Cars;
-  }
+//   async findOne(params: { where: Prisma.CarWhereUniqueInput }): Promise<Car> {
+//     return this.prisma.car.findUnique({ ...params });
+//   }
 
-  findOne(id: string) {
-    const car = this.Cars.find((car) => car.id === id);
-    if (!car) {
-      throw new NotFoundException(`Car with id ${id} no found`);
-    }
-    return car;
-  }
+//   async update(params: {
+//     where: Prisma.CarWhereUniqueInput;
+//     data: Prisma.CarUncheckedUpdateInput;
+//   }): Promise<Car> {
+//     return this.prisma.car.update({ ...params });
+//   }
 
-  update(id: string, updateCarDto: UpdateCarDto) {
-    let carDb = this.findOne(id);
-    console.log(
-      "🚀 ~ file: cars.service.ts:35 ~ CarsService ~ update ~ carDb",
-      carDb
-    );
-    this.Cars = this.Cars.map((e) =>
-      e.id === id ? { ...carDb, ...updateCarDto, id } : e
-    );
-    return this.findOne(id);
-  }
-
-  remove(id: string) {
-    this.findOne(id);
-    this.Cars = this.Cars.filter((car) => car.id !== id);
-    return this.findAll();
-  }
-}
+//   async remove(params: { where: Prisma.CarWhereUniqueInput }): Promise<Car> {
+//     return this.prisma.car.delete({ ...params });
+//   }
+// }

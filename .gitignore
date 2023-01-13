@@ -4,6 +4,7 @@
 # variables de entornos
 .env
 # Logs
+/prisma/*.db
 logs
 *.log
 npm-debug.log*

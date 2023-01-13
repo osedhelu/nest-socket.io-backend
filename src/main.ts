@@ -1,15 +1,20 @@
-import { ValidationPipe } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
-import { isNull } from "./utils";
+import { PrismaService } from "./common/prisma.service";
+import { cColor, isNull } from "./utils";
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      transform: true,
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     })
   );
   const config = new DocumentBuilder()
@@ -19,13 +24,27 @@ const bootstrap = async () => {
     .addTag("Bands")
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document);
+  SwaggerModule.setup("docs", app, document, {
+    customSiteTitle: "",
+    swaggerOptions: {
+      docExpansion: "none",
+      ignoreGlobalPrefix: true,
+      filter: true,
+      displayRequestDuration: true,
+      deepLinking: true,
+    },
+  });
   const port = process.env["PORT"];
-  console.log(
-    "🚀 ~ file: main.ts:19 ~ bootstrap ~ port",
-    isNull(port) ? 3000 : port
-  );
-  return await app.listen(isNull(port) ? 3000 : port);
+
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
+  const logger = new Logger();
+  return await app.listen(isNull(port) ? 3000 : port, () => {
+    let porta = isNull(port) ? 3000 : port;
+    logger.log(
+      `🚀 ~ ${cColor.BGgreen}file: main.ts:45 ~ bootstrap ~ port  = ${cColor.BGcyan}${porta}\x1b[0m`
+    );
+  });
 };
 
 bootstrap();
