@@ -1,17 +1,23 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model pokeapi {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
-  url  String
+model user {
+  id           String    @id @default(uuid()) @map("id")
+  password     String
+  last_login   DateTime?
+  is_superuser Boolean   @default(false)
+  username     String    @unique(map: "sqlite_autoindex_username")
+  first_name   String?
+  last_name    String?
+  is_staff     Boolean   @default(false)
+  is_active    Boolean   @default(false)
+  email        String    @unique(map: "sqlite_autoindex_user_email")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }

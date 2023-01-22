@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
-export class CreateBandDto {
+export class CreatePokemonDto {
   @ApiProperty({
     required: true,
     default: "",
@@ -12,6 +12,6 @@ export class CreateBandDto {
     required: false,
     default: 0,
   })
-  @IsString()
-  readonly vote: string;
+  @IsNumber()
+  readonly no: number;
 }

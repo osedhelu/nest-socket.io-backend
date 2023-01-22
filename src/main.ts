@@ -17,6 +17,7 @@ const bootstrap = async () => {
       },
     })
   );
+  app.setGlobalPrefix("/api/v1");
   const config = new DocumentBuilder()
     .setTitle("Band App")
     .setDescription("The band API description")
@@ -35,14 +36,13 @@ const bootstrap = async () => {
     },
   });
   const port = process.env["PORT"];
-
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
   const logger = new Logger();
   return await app.listen(isNull(port) ? 3000 : port, () => {
     let porta = isNull(port) ? 3000 : port;
     logger.log(
-      `🚀 ~ ${cColor.BGgreen}file: main.ts:45 ~ bootstrap ~ port  = ${cColor.BGcyan}${porta}\x1b[0m`
+      `🚀 ~ ${cColor.BGgreen}${cColor.black} file: main.ts:45 ~ bootstrap ~ port  = ${cColor.BGcyan}${porta}\x1b[0m \x1b[0m`
     );
   });
 };

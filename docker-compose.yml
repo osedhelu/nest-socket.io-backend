@@ -1,11 +1,16 @@
 version: '3'
 services:
-  db:
-    image: mongo:5
-    restart: always
+  pokedexapp:
+   
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: pokedex-docker
+    container_name: pokedexapp
+    restart: always # reiniciar el contenedor si se detiene
     ports:
-      - 27017:27017
-    environment:
-      MONGODB_DATABASE: nest-chat
-    volumes:
-      - ~/mongodb:/data/db 
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    # volumes:
+    #   - ./:/var/www/pokedex

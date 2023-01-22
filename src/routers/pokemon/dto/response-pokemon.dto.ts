@@ -1,4 +1,4 @@
-export interface PokeResponse {
+export interface ResponsePokemonDto {
   count: number;
   next: string;
   previous: null;

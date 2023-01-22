@@ -1,4 +1,3 @@
-import { iBand } from "@/routers/band/interface/band.interface";
 import { v4 as uuid } from "uuid";
 import { Injectable } from "@nestjs/common";
 import { Socket } from "socket.io";
@@ -10,7 +9,7 @@ interface ConnectedClients {
 }
 @Injectable()
 export class BandService {
-  private bands: iBand[] = [];
+  private bands: any[] = [];
   private connectedClient: ConnectedClients = {};
 
   constructor() {

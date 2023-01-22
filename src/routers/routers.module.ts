@@ -1,9 +1,9 @@
 import { CommonModule } from "@/common/common.module";
 import { Module } from "@nestjs/common";
-import { BandModule } from "./band/band.module";
-import { SeedModule } from "./seed/seed.module";
+import { AuthModule } from "./auth/auth.module";
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [BandModule, SeedModule, CommonModule],
+  imports: [CommonModule, AuthModule, UserModule],
 })
 export class RoutersModule {}
