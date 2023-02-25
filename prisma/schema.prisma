@@ -64,12 +64,11 @@ model Images {
 }
 
 model sizes {
-  id            Int             @id @default(autoincrement())
-  name          String          @unique
-  product       SizeOnProduct[]
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  TagsOnProduct TagsOnProduct[]
+  id        Int             @id @default(autoincrement())
+  name      String          @unique
+  product   SizeOnProduct[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
 }
 
 model tags {
@@ -94,13 +93,11 @@ model SizeOnProduct {
 model TagsOnProduct {
   product    Products? @relation(fields: [productsId], references: [id])
   productsId Int
+  tags       tags?     @relation(fields: [tagsId], references: [id])
+  tagsId     Int
 
-  tag       sizes?   @relation(fields: [tagId], references: [id])
-  tagId     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  tags      tags?    @relation(fields: [tagsId], references: [id])
-  tagsId    Int?
 
-  @@id([productsId, tagId])
+  @@id([productsId, tagsId])
 }

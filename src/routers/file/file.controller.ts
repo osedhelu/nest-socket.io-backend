@@ -2,16 +2,16 @@ import { multerOptions } from '@/common/adapter/multer.config';
 import { initialData } from '@/config/product';
 import { Body, Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileDataDto } from './dto/fileData.dto';
 import { FileService } from './file.service';
-import dataImage = require('../../../uploads/images.json')
 
 const allSize = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 const allTags = ['sweatshirt', 'jacket', 'shirt', 'hoodie', 'hats']
 
 @Controller('file')
+@ApiTags('file')
 export class FileController {
   constructor(private readonly fileService: FileService) { }
 
@@ -75,7 +75,7 @@ export class FileController {
         let x = product.tags[a]
         let tag = await this.fileService.getTagsName({ where: { name: x } })
         let id = tag[0].id
-        TagA.push({ tagId: id })
+        TagA.push({ tagsId: id })
         // let dbImg = await this.fileService.Image({ where: { path: img } })
         // imgA.push(dbImg[0].id)
       }
@@ -114,7 +114,7 @@ export class FileController {
   async InsertSize() {
     for (let i = 0; i < allSize.length; i++) {
       let size = allSize[i]
-      this.fileService.InsertSize({
+      await this.fileService.InsertSize({
         name: size
       })
 
@@ -125,8 +125,8 @@ export class FileController {
         name: tag
       })
     }
-    for (let i = 0; i < dataImage.length; i++) {
-      let img = dataImage[i]
+    for (let i = 0; i < initialData.img.length; i++) {
+      let img = initialData.img[i]
       await this.fileService.insertImg({
         path: img
       })

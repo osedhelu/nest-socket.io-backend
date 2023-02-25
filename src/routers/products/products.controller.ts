@@ -2,10 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { Products } from '@prisma/client';
 
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
@@ -13,8 +16,11 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  async findAll(
+    @Body() postData: { title: string; content?: string; authorEmail: string },
+
+  ): Promise<Products[]> {
+    return await this.productsService.findAll({});
   }
 
   @Get(':id')
