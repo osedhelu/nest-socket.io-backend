@@ -11,10 +11,14 @@
     "outDir": "./dist",
     "baseUrl": "./src/",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
     "incremental": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,

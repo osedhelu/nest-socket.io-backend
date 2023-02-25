@@ -1,23 +1,40 @@
-import { Injectable } from "@nestjs/common";
+import { PrismaService } from "@/common/prisma.service";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
+import { user } from "@prisma/client";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
 type JwtPayload = {
-  sub: string;
+  id: string;
   username: string;
+  email: string;
 };
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy, "jwt") {
-  constructor(private readonly config: ConfigService) {
+  constructor(
+    private readonly config: ConfigService,
+    private readonly prisma: PrismaService
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: config.getOrThrow("jwt_access_secret"),
     });
   }
 
-  validate(payload: JwtPayload) {
-    return payload;
+  async validate(payload: JwtPayload): Promise<user> {
+    const { id } = payload;
+    const userModel = await this.prisma.user
+      .findUnique({
+        where: {
+          id,
+        },
+      })
+      .catch((e) => Promise.reject("Token no valid"));
+    if (!userModel.is_active) {
+      throw new UnauthorizedException("User no active");
+    }
+    return userModel;
   }
 }

@@ -23,6 +23,17 @@ const bootstrap = async () => {
     .setDescription("The band API description")
     .setVersion("1.0.0")
     .addTag("Bands")
+    .addOAuth2()
+    .addBearerAuth(
+      {
+        description: "Default JWT Authorization",
+        type: "http",
+        in: "header",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+      "JWT-auth"
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document, {

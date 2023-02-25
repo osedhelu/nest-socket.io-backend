@@ -15,4 +15,4 @@ import { EnvConfigutation } from "@/config/env.config";
     RoutersModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

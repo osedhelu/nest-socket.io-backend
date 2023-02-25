@@ -1,13 +1,22 @@
+import { GetRawHeader, GetUser } from "@/common/decorator";
 import {
-  Controller,
-  Post,
+  AccessTokenGuard,
+  RefreshTokenGuard,
+  UserRoleGuard,
+} from "@/common/guards";
+import {
   Body,
-  BadRequestException,
+  Controller,
+  Get,
+  Post,
+  SetMetadata,
   UnauthorizedException,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { user } from "@prisma/client";
 import { AuthService } from "./auth.service";
-import { LoginUserDto, RefreshAuthDto } from "./dto";
+import { LoginUserDto } from "./dto";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -22,8 +31,42 @@ export class AuthController {
       throw new UnauthorizedException(error);
     }
   }
-  @Post("/reset")
-  reset(@Body() token: RefreshAuthDto) {
-    this.authService.refresh(token);
+  // @Post("/reset")
+  // async reset(@Body() token: RefreshAuthDto) {
+  //   return await this.authService.refresh(token);
+  // }
+  @ApiBearerAuth("JWT-auth")
+  @UseGuards(RefreshTokenGuard)
+  @Get("/refresh")
+  async refreshTokens(@GetUser() user: user) {
+    console.log("TCL: AuthController -> refreshTokens -> user", user);
+    try {
+      return await this.authService.refreshTokens(user.id, user.refreshToken);
+    } catch (err) {
+      throw new UnauthorizedException(err);
+    }
+  }
+  @ApiBearerAuth("JWT-auth")
+  @UseGuards(AccessTokenGuard)
+  @Get("/pretegiso")
+  async pretegiso(@GetUser() user: user, @GetRawHeader() header: any) {
+    try {
+      return user;
+    } catch (err) {
+      console.log("TCL: AuthController -> pretegiso -> err", err);
+      throw new UnauthorizedException(err);
+    }
+  }
+  @ApiBearerAuth("JWT-auth")
+  @SetMetadata("roles", ["admin", "super-user"])
+  @UseGuards(AccessTokenGuard, UserRoleGuard)
+  @Get("/private2")
+  async pretegiso2(@GetUser() user: user, @GetRawHeader() header: any) {
+    try {
+      return user;
+    } catch (err) {
+      console.log("TCL: AuthController -> pretegiso -> err", err);
+      throw new UnauthorizedException(err);
+    }
   }
 }

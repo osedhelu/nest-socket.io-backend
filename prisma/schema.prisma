@@ -20,4 +20,87 @@ model user {
   email        String    @unique(map: "sqlite_autoindex_user_email")
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  refreshToken String?
+  Roles        Roles[]
+}
+
+model Roles {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  user      user?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model Products {
+  id          Int      @id @default(autoincrement())
+  description String
+  title       String
+  images      Images[]
+
+  inStock   Int
+  price     Int
+  sizes     SizeOnProduct[]
+  slug      String          @unique
+  type      String
+  tags      TagsOnProduct[]
+  gender    String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model Images {
+  id          Int       @id @default(autoincrement())
+  path        String    @unique
+  description String?
+  Products    Products? @relation(fields: [productsId], references: [id])
+  productsId  Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model sizes {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  product       SizeOnProduct[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  TagsOnProduct TagsOnProduct[]
+}
+
+model tags {
+  id        Int             @id @default(autoincrement())
+  name      String          @unique
+  product   TagsOnProduct[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model SizeOnProduct {
+  product    Products? @relation(fields: [productsId], references: [id])
+  productsId Int
+  sizes      sizes?    @relation(fields: [sizesId], references: [id])
+  sizesId    Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@id([productsId, sizesId])
+}
+
+model TagsOnProduct {
+  product    Products? @relation(fields: [productsId], references: [id])
+  productsId Int
+
+  tag       sizes?   @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tags      tags?    @relation(fields: [tagsId], references: [id])
+  tagsId    Int?
+
+  @@id([productsId, tagId])
 }
