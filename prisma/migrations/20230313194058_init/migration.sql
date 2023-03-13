@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "user" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "password" TEXT NOT NULL,
     "last_login" DATETIME,
@@ -16,6 +16,16 @@ CREATE TABLE "user" (
 );
 
 -- CreateTable
+CREATE TABLE "Sponsor" (
+    "userId" TEXT NOT NULL,
+    "referraId" TEXT NOT NULL,
+
+    PRIMARY KEY ("userId", "referraId"),
+    CONSTRAINT "Sponsor_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Sponsor_referraId_fkey" FOREIGN KEY ("referraId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "Roles" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -25,7 +35,7 @@ CREATE TABLE "Roles" (
     "published" BOOLEAN NOT NULL DEFAULT false,
     "viewCount" INTEGER NOT NULL DEFAULT 0,
     "userId" TEXT,
-    CONSTRAINT "Roles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT "Roles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -95,13 +105,16 @@ CREATE TABLE "TagsOnProduct" (
 
 -- CreateIndex
 Pragma writable_schema=1;
-CREATE UNIQUE INDEX "sqlite_autoindex_username" ON "user"("username");
+CREATE UNIQUE INDEX "sqlite_autoindex_username" ON "User"("username");
 Pragma writable_schema=0;
 
 -- CreateIndex
 Pragma writable_schema=1;
-CREATE UNIQUE INDEX "sqlite_autoindex_user_email" ON "user"("email");
+CREATE UNIQUE INDEX "sqlite_autoindex_user_email" ON "User"("email");
 Pragma writable_schema=0;
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Sponsor_userId_key" ON "Sponsor"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Products_slug_key" ON "Products"("slug");

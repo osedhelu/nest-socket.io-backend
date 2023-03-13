@@ -1,15 +1,15 @@
-import { PrismaService } from "@/common/prisma.service";
-import { Injectable } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
-import * as bcrypt from "bcrypt";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { PrismaService } from '@/common/prisma.service';
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: Prisma.userCreateInput) {
-    let userValidata = await Prisma.validator<Prisma.userCreateInput>()({
+  async create(data: Prisma.UserCreateInput) {
+    const userValidata = await Prisma.validator<Prisma.UserCreateInput>()({
       email: data.email,
       password: bcrypt.hashSync(data.password, 10),
       username: data.username,
